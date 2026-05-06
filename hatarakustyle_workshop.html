@@ -1,0 +1,499 @@
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+.ws-root {
+  max-width: 700px;
+  margin: 0 auto;
+  padding: 1.5rem 1rem 3rem;
+  font-family: 'Hiragino Kaku Gothic ProN', 'Noto Sans JP', sans-serif;
+  color: var(--color-text-primary);
+}
+
+.ws-header {
+  text-align: center;
+  margin-bottom: 2rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 1.5px dashed #5a9e6f;
+}
+
+.ws-logo {
+  font-size: 13px;
+  color: #5a9e6f;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  margin-bottom: 0.4rem;
+}
+
+.ws-title {
+  font-size: 20px;
+  font-weight: 700;
+  margin-bottom: 0.3rem;
+}
+
+.ws-hint {
+  font-size: 13px;
+  color: var(--color-text-secondary);
+  line-height: 1.6;
+}
+
+.ws-hint strong {
+  color: #3d7a55;
+  font-weight: 700;
+}
+
+.progress-wrap {
+  margin: 1.2rem 0 0.3rem;
+  background: var(--color-background-secondary);
+  border-radius: 99px;
+  height: 5px;
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  background: #5a9e6f;
+  border-radius: 99px;
+  transition: width 0.4s ease;
+}
+
+.progress-label {
+  font-size: 11px;
+  color: var(--color-text-secondary);
+  text-align: right;
+}
+
+.card {
+  background: var(--color-background-primary);
+  border: 0.5px solid var(--color-border-tertiary);
+  border-radius: var(--border-radius-lg);
+  padding: 1.2rem 1.3rem 1.4rem;
+  margin-bottom: 1rem;
+  transition: border-color 0.2s;
+}
+
+.card:hover { border-color: var(--color-border-secondary); }
+
+.card-meta {
+  font-size: 11px;
+  color: #5a9e6f;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  margin-bottom: 0.5rem;
+}
+
+.card-theme {
+  font-size: 13px;
+  color: var(--color-text-secondary);
+  margin-bottom: 0.9rem;
+  line-height: 1.4;
+}
+
+.poles {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  gap: 10px;
+  align-items: start;
+  margin-bottom: 0.9rem;
+}
+
+.pole {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.pole.right { text-align: right; align-items: flex-end; }
+
+.pole-name {
+  font-size: 15px;
+  font-weight: 700;
+}
+
+.pole-desc {
+  font-size: 11px;
+  color: var(--color-text-secondary);
+  line-height: 1.45;
+}
+
+.vs {
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--color-text-secondary);
+  letter-spacing: 0.05em;
+  padding-top: 2px;
+}
+
+input[type=range] {
+  width: 100%;
+  accent-color: #5a9e6f;
+  cursor: pointer;
+}
+
+.tick-row {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 4px;
+}
+
+.tick {
+  font-size: 10px;
+  color: var(--color-text-secondary);
+  transition: color 0.2s, font-weight 0.2s;
+}
+
+.tick.hi-l { color: #3d7a55; font-weight: 700; }
+.tick.hi-r { color: #1D9E75; font-weight: 700; }
+
+.val-label {
+  text-align: center;
+  font-size: 12px;
+  color: var(--color-text-secondary);
+  margin-top: 5px;
+  min-height: 16px;
+  transition: color 0.2s;
+}
+
+.summary {
+  margin-top: 2.5rem;
+  padding-top: 1.5rem;
+  border-top: 1.5px dashed #5a9e6f;
+}
+
+.summary-title {
+  font-size: 16px;
+  font-weight: 700;
+  margin-bottom: 1.2rem;
+  text-align: center;
+}
+
+.s-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 9px;
+}
+
+.s-lbl {
+  font-size: 11px;
+  color: var(--color-text-secondary);
+  width: 70px;
+  flex-shrink: 0;
+  text-align: right;
+  line-height: 1.3;
+}
+
+.s-lbl.right { text-align: left; }
+
+.s-bar-wrap {
+  flex: 1;
+  height: 7px;
+  background: var(--color-background-secondary);
+  border-radius: 99px;
+  overflow: hidden;
+  position: relative;
+}
+
+.s-bar-fill {
+  height: 100%;
+  border-radius: 99px;
+  position: absolute;
+  transition: width 0.35s ease, left 0.35s ease;
+}
+
+.share-btn {
+  display: block;
+  width: 100%;
+  margin-top: 1.5rem;
+  padding: 0.7rem;
+  background: #3d7a55;
+  color: #fff;
+  border: none;
+  border-radius: var(--border-radius-md);
+  font-size: 14px;
+  font-weight: 700;
+  font-family: inherit;
+  cursor: pointer;
+  letter-spacing: 0.04em;
+  transition: background 0.15s, transform 0.1s;
+}
+
+.share-btn:hover { background: #2d5c3f; }
+.share-btn:active { transform: scale(0.98); }
+
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+  margin-top: 1rem;
+}
+
+.tag {
+  font-size: 11px;
+  padding: 4px 10px;
+  border-radius: 99px;
+  font-weight: 700;
+}
+
+.tag-l { background: #E1F5EE; color: #0F6E56; }
+.tag-r { background: #e8f5ec; color: #3d7a55; }
+</style>
+
+<div class="ws-root">
+  <div class="ws-header">
+    <div class="ws-logo">株式会社 坂ノ途中</div>
+    <div class="ws-title">はたらくスタイルワークショップ</div>
+    <div class="ws-hint"><strong>自分の心地よい方のスタイルを選んでね</strong><br>なりたい方向ではなく今の自分の傾向を探ろう！</div>
+    <div class="progress-wrap"><div class="progress-fill" id="pFill" style="width:0%"></div></div>
+    <div class="progress-label" id="pLabel">0 / 10 回答済み</div>
+  </div>
+
+  <div id="cards"></div>
+
+  <div class="summary" id="summary" style="display:none">
+    <div class="summary-title">あなたのコミュニケーションプロフィール</div>
+    <div id="sRows"></div>
+    <div class="tags" id="tags"></div>
+    <button class="share-btn" onclick="doShare()">このプロフィールをチームと共有する ↗</button>
+  </div>
+</div>
+
+<script>
+const items = [
+  {
+    id:1,
+    icon:'🗣',
+    title:'1. 話し方のスタイル',
+    theme:'結論から話したい／気持ちや背景を大切に話したい',
+    left:  { name:'直線型',   desc:'まず、まっすぐに結論から話したい' },
+    right: { name:'らせん型', desc:'気持ちや背景を伝えながら結論に辿りつく' }
+  },
+  {
+    id:2,
+    icon:'🧡',
+    title:'2. 会話の進め方',
+    theme:'自分のペースが大事／相手の気持ちが大事',
+    left:  { name:'Lowコンテキスト',  desc:'自分（話し手）のペース／言葉で進めたい' },
+    right: { name:'Highコンテキスト', desc:'相手（聞き手）の気持ちを汲みながら進めたい' }
+  },
+  {
+    id:3,
+    icon:'🤝',
+    title:'3. ミーティングの進め方',
+    theme:'順番を大切にする／意見が生まれる瞬間を大切にする',
+    left:  { name:'ゴルフ型',  desc:'一人ずつ話していく、落ち着いた進行' },
+    right: { name:'ラグビー型', desc:'みんなでワイワイ、飛び交う意見が大事' }
+  },
+  {
+    id:4,
+    icon:'📅',
+    title:'4. 予定の組み方',
+    theme:'予定や時間をしっかり決めたい／その時々で調整したい',
+    left:  { name:'直線的な時間', desc:'予定や締切を決めて安心して進みたい' },
+    right: { name:'柔軟な時間',   desc:'状況に合わせて柔らかく調整したい' }
+  },
+  {
+    id:5,
+    icon:'😊',
+    title:'5. チームワークと責任',
+    theme:'自分の役割をしっかり果たす／みんなで一緒につくり上げる',
+    left:  { name:'テトリス', desc:'自分の担当を責任を持って終えたい' },
+    right: { name:'アメーバ', desc:'きっちり分けずに仲間と一緒に進めたい' }
+  },
+  {
+    id:6,
+    icon:'📌',
+    title:'6. 仕事の受け取り方',
+    theme:'自分で仕事を見つけたい／仕事はもらいたい',
+    left:  { name:'取りに行く！', desc:'自分で仕事を生みたい、見つけたい' },
+    right: { name:'もらう！',     desc:'仕事は上司にアサインされたい' }
+  },
+  {
+    id:7,
+    icon:'🌿',
+    title:'7. リードの仕方',
+    theme:'一員として支えていきたい／前に立って示したい',
+    left:  { name:'支える',   desc:'メンバーのひとりとして周りを整えて支える' },
+    right: { name:'前に立つ', desc:'方向を示して引っ張りたい' }
+  },
+  {
+    id:8,
+    icon:'🤔',
+    title:'8. 意思決定の仕方',
+    theme:'合意形成をみんなでして進めたい／スピード重視、トップダウンで進めたい',
+    left:  { name:'みなの納得大事', desc:'みんなが納得してから進みたい' },
+    right: { name:'スピード大事',   desc:'決まっていることをどんどん進めたい' }
+  },
+  {
+    id:9,
+    icon:'🪞',
+    title:'9. 改善のフィードバック',
+    theme:'ストレートに受け取りたい／やさしい配慮があると受け取りやすい',
+    left:  { name:'直接的', desc:'直球の言葉で改善を促してほしい' },
+    right: { name:'間接的', desc:'背景や思いを添えながら丁寧に話してほしい' }
+  },
+  {
+    id:10,
+    icon:'💬',
+    title:'10. 意見の違いへの向き合い方',
+    theme:'意見をぶつけ合う／調和や合意を大切に',
+    left:  { name:'対立歓迎型', desc:'意見のぶつかり合いも宝' },
+    right: { name:'対立回避型', desc:'調和や安心感を大切にしながら進む' }
+  }
+];
+
+const vals = {};
+const done = new Set();
+
+function pct(v) { return ((v-1)/8)*100; }
+
+function label(v, item) {
+  const p = pct(v);
+  if (p < 5)  return item.left.name + '（強く）';
+  if (p < 30) return item.left.name + '（やや）';
+  if (p < 45) return item.left.name + '（少し）';
+  if (p < 55) return 'どちらでもない';
+  if (p < 70) return item.right.name + '（少し）';
+  if (p < 95) return item.right.name + '（やや）';
+  return item.right.name + '（強く）';
+}
+
+function updateProgress() {
+  const p = (done.size / items.length) * 100;
+  document.getElementById('pFill').style.width = p + '%';
+  document.getElementById('pLabel').textContent = done.size + ' / ' + items.length + ' 回答済み';
+  if (done.size === items.length) showSummary();
+}
+
+function showSummary() {
+  const sec = document.getElementById('summary');
+  sec.style.display = 'block';
+  renderSummary();
+  setTimeout(() => sec.scrollIntoView({ behavior:'smooth', block:'start' }), 100);
+}
+
+function renderSummary() {
+  const rows = document.getElementById('sRows');
+  const tags = document.getElementById('tags');
+  rows.innerHTML = '';
+  tags.innerHTML = '';
+
+  items.forEach(item => {
+    const v = vals[item.id] ?? 5;
+    const p = pct(v);
+
+    const row = document.createElement('div');
+    row.className = 's-row';
+
+    const ll = document.createElement('div');
+    ll.className = 's-lbl';
+    ll.textContent = item.left.name;
+
+    const bw = document.createElement('div');
+    bw.className = 's-bar-wrap';
+
+    const bf = document.createElement('div');
+    bf.className = 's-bar-fill';
+
+    if (p < 50) {
+      bf.style.background = '#5a9e6f';
+      bf.style.right = '50%';
+      bf.style.left = p + '%';
+      bf.style.width = (50 - p) + '%';
+    } else if (p > 50) {
+      bf.style.background = '#1D9E75';
+      bf.style.left = '50%';
+      bf.style.width = (p - 50) + '%';
+    }
+
+    bw.appendChild(bf);
+
+    const rl = document.createElement('div');
+    rl.className = 's-lbl right';
+    rl.textContent = item.right.name;
+
+    row.appendChild(ll); row.appendChild(bw); row.appendChild(rl);
+    rows.appendChild(row);
+
+    if (p < 40 || p > 60) {
+      const tag = document.createElement('span');
+      tag.className = 'tag ' + (p < 50 ? 'tag-l' : 'tag-r');
+      tag.textContent = p < 50 ? item.left.name : item.right.name;
+      tags.appendChild(tag);
+    }
+  });
+}
+
+function doShare() {
+  const lines = items.map(it => {
+    const v = vals[it.id] ?? 5;
+    return it.title + '：' + label(v, it);
+  });
+  sendPrompt('以下は私の「はたらくスタイル」診断の結果です。チームメンバーに自分のスタイルを紹介するための、親しみやすいコメント文を作成してください。\n\n' + lines.join('\n'));
+}
+
+function render() {
+  const c = document.getElementById('cards');
+  items.forEach(item => {
+    const card = document.createElement('div');
+    card.className = 'card';
+
+    card.innerHTML = `
+      <div class="card-meta">${item.icon} ${item.title}</div>
+      <div class="card-theme">${item.theme}</div>
+      <div class="poles">
+        <div class="pole">
+          <div class="pole-name" id="ln${item.id}">${item.left.name}</div>
+          <div class="pole-desc">${item.left.desc}</div>
+        </div>
+        <div class="vs">VS</div>
+        <div class="pole right">
+          <div class="pole-name" id="rn${item.id}">${item.right.name}</div>
+          <div class="pole-desc">${item.right.desc}</div>
+        </div>
+      </div>
+      <input type="range" min="1" max="9" step="1" value="5" id="sl${item.id}" />
+      <div class="tick-row">
+        <span class="tick" id="tl${item.id}">${item.left.name}</span>
+        <span class="tick">どちらでもない</span>
+        <span class="tick" id="tr${item.id}">${item.right.name}</span>
+      </div>
+      <div class="val-label" id="vl${item.id}">スライダーを動かしてください</div>
+    `;
+
+    c.appendChild(card);
+
+    const sl = document.getElementById('sl' + item.id);
+    const vl = document.getElementById('vl' + item.id);
+    const tl = document.getElementById('tl' + item.id);
+    const tr = document.getElementById('tr' + item.id);
+
+    sl.addEventListener('input', () => {
+      const v = parseInt(sl.value);
+      vals[item.id] = v;
+      done.add(item.id);
+
+      const p = pct(v);
+      vl.textContent = label(v, item);
+
+      if (p < 45) {
+        vl.style.color = '#3d7a55';
+        tl.className = 'tick hi-l';
+        tr.className = 'tick';
+      } else if (p > 55) {
+        vl.style.color = '#1D9E75';
+        tl.className = 'tick';
+        tr.className = 'tick hi-r';
+      } else {
+        vl.style.color = 'var(--color-text-secondary)';
+        tl.className = 'tick';
+        tr.className = 'tick';
+      }
+
+      updateProgress();
+      if (done.size === items.length) renderSummary();
+    });
+  });
+}
+
+render();
+</script>
